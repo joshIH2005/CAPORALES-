@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_gradients.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/validators.dart';
@@ -37,7 +32,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   final _telefonoController = TextEditingController();
 
   DateTime? _fechaNacimiento;
-  Uint8List? _fotoBytes;
   bool _guardando = false;
   Member? _miembroCreado;
 
@@ -48,55 +42,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     _ocupacionController.dispose();
     _telefonoController.dispose();
     super.dispose();
-  }
-
-  /// Abre el selector para elegir la foto de perfil (galeria o camara).
-  Future<void> _seleccionarFoto() async {
-    final origen = await showModalBottomSheet<ImageSource>(
-      context: context,
-      backgroundColor: AppColors.surface,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.photo_library_outlined,
-                  color: AppColors.primaryLight),
-              title: const Text('Galería'),
-              onTap: () => Navigator.pop(context, ImageSource.gallery),
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo_camera_outlined,
-                  color: AppColors.primaryLight),
-              title: const Text('Cámara'),
-              onTap: () => Navigator.pop(context, ImageSource.camera),
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
-    );
-    if (origen == null || !mounted) return;
-
-    try {
-      final foto = await ImagePicker().pickImage(
-        source: origen,
-        maxWidth: 600,
-        maxHeight: 600,
-        imageQuality: 70,
-      );
-      if (foto == null || !mounted) return;
-      final bytes = await foto.readAsBytes();
-      setState(() => _fotoBytes = bytes);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No se pudo cargar la foto. Intente de nuevo.'),
-          ),
-        );
-      }
-    }
   }
 
   /// Abre el selector de fecha de nacimiento.
@@ -136,7 +81,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           ? 'No especificada'
           : _ocupacionController.text.trim(),
       telefono: _telefonoController.text.trim(),
-      fotoPerfil: _fotoBytes == null ? '' : base64Encode(_fotoBytes!),
     );
 
     if (!mounted) return;
@@ -165,7 +109,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       _edadController.clear();
       _ocupacionController.clear();
       _telefonoController.clear();
-      _fotoBytes = null;
       _fechaNacimiento = null;
     });
   }
@@ -229,49 +172,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     ),
                   ),
                 ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // ===== Foto de perfil (opcional) =====
-            Center(
-              child: InkWell(
-                onTap: _seleccionarFoto,
-                borderRadius: BorderRadius.circular(60),
-                child: Container(
-                  width: 110,
-                  height: 110,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: AppGradients.surface,
-                    border: Border.all(
-                        color: AppColors.gold.withValues(alpha: 0.6), width: 2),
-                  ),
-                  child: _fotoBytes != null
-                      ? ClipOval(
-                          child: Image.memory(
-                            _fotoBytes!,
-                            width: 110,
-                            height: 110,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.add_a_photo_outlined,
-                                color: AppColors.goldLight, size: 30),
-                            SizedBox(height: 6),
-                            Text(
-                              'Foto de perfil',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                ),
               ),
             ),
             const SizedBox(height: 24),

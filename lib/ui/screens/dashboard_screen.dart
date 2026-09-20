@@ -7,7 +7,6 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/models/member_model.dart';
 import '../../logic/member_controller.dart';
-import '../widgets/avatar_miembro.dart';
 import '../widgets/metric_card.dart';
 
 /// Dashboard: metricas (recaudado, integrantes, pagos) y
@@ -453,6 +452,17 @@ class _MemberTile extends StatelessWidget {
   final double totalPagado;
   final int asistencias;
 
+  String get _iniciales {
+    final partes = member.nombresApellidos
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((p) => p.isNotEmpty)
+        .toList();
+    if (partes.isEmpty) return '?';
+    if (partes.length == 1) return partes.first[0].toUpperCase();
+    return (partes.first[0] + partes.last[0]).toUpperCase();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textoAsistencias =
@@ -468,8 +478,24 @@ class _MemberTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Avatar: foto de perfil o iniciales
-          AvatarMiembro(member: member, radius: 22),
+          // Avatar de iniciales con fondo dorado
+          Container(
+            width: 44,
+            height: 44,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: AppGradients.gold,
+            ),
+            child: Text(
+              _iniciales,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -575,13 +601,9 @@ class _CriticalTile extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
-        leading: Container(
-          padding: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.error, width: 2),
-          ),
-          child: AvatarMiembro(member: member, radius: 20),
+        leading: CircleAvatar(
+          backgroundColor: AppColors.error.withValues(alpha: 0.18),
+          child: const Icon(Icons.person_off, color: AppColors.error),
         ),
         title: Text(
           member.nombresApellidos,

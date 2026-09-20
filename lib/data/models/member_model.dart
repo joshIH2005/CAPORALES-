@@ -10,7 +10,6 @@ class Member {
   final String estado; // Activo / Inactivo
   final String fechaIngreso; // Formato: yyyy-MM-dd
   final String telefono; // Opcional
-  final String fotoPerfil; // Opcional: foto en base64 (data URI o pura)
 
   const Member({
     required this.id,
@@ -21,7 +20,6 @@ class Member {
     required this.estado,
     required this.fechaIngreso,
     this.telefono = '',
-    this.fotoPerfil = '',
   });
 
   /// Convierte el objeto a un Map para enviarlo por HTTP / JSON.
@@ -34,7 +32,6 @@ class Member {
         'estado': estado,
         'fecha_ingreso': fechaIngreso,
         'telefono': telefono,
-        'foto_perfil': fotoPerfil,
       };
 
   /// Construye un [Member] a partir de un Map (respuesta del API).
@@ -49,7 +46,6 @@ class Member {
         fechaIngreso:
             Formatters.fechaISODesde(map['fecha_ingreso']?.toString() ?? ''),
         telefono: map['telefono']?.toString() ?? '',
-        fotoPerfil: map['foto_perfil']?.toString() ?? '',
       );
 
   /// Nombre en mayusculas (para el carnet digital).

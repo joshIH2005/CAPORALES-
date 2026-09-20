@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -86,16 +83,6 @@ class CarnetDigitalWidget extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                // Foto de perfil (si la tiene)
-                if (_decodificarFoto() != null) ...[
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    foregroundImage: MemoryImage(_decodificarFoto()!),
-                  ),
-                  const SizedBox(height: 14),
-                ],
-
                 // QR firmado: negro sobre fondo blanco
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -152,19 +139,6 @@ class CarnetDigitalWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Uint8List? _decodificarFoto() {
-    final foto = member.fotoPerfil;
-    if (foto.isEmpty) return null;
-    try {
-      // Admite data URI ("data:image/png;base64,...") o base64 puro.
-      final idx = foto.indexOf(',');
-      final base = idx == -1 ? foto : foto.substring(idx + 1);
-      return base64Decode(base);
-    } catch (_) {
-      return null;
-    }
   }
 }
 

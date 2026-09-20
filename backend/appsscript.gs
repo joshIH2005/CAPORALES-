@@ -305,7 +305,6 @@ var INTEGRANTES_HEADERS = [
   'estado',
   'fecha_ingreso',
   'telefono',
-  'foto_perfil',
 ];
 
 var REGISTROS_HEADERS = [

@@ -50,3 +50,6 @@ app.*.map.json
 # Capturas temporales del equipo
 .tmp_screen*
 .tmp_screen_padre/
+
+# Secrets locales para --dart-define (nunca subir)
+.dart_define.local

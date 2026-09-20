@@ -1,7 +1,12 @@
 /// Configuracion central de la API.
 ///
-/// IMPORTANTE: Reemplaza la URL por la que genera Google Apps Script
-/// al desplegar el backend como "Web app" (ver archivo backend/appsscript.gs).
+/// Los valores secretos (token y clave QR) NO van en este archivo.
+/// Se inyectan en compilacion con --dart-define para no filtrarlos en un
+/// repositorio publico. Ejemplos:
+///   flutter run --dart-define=API_TOKEN='...' --dart-define=QR_CLAVE='...'
+///   flutter build apk --dart-define=API_TOKEN='...' --dart-define=QR_CLAVE='...'
+///
+/// Deben coincidir con API_TOKEN y QR_CLAVE de backend/appsscript.gs.
 class ApiConfig {
   ApiConfig._();
 
@@ -11,17 +16,14 @@ class ApiConfig {
 
   /// Token secreto para autorizar las peticiones al backend.
   ///
-  /// Debe coincidir con la constante `API_TOKEN` en backend/appsscript.gs.
-  /// Evita que cualquiera con la URL publique integrantes o registre pagos.
-  static const String tokenSecreto =
-      'CAP03-T0K3N-S3CR3T0-2026'; // TODO: reemplazar
+  /// Inyectalo con --dart-define=API_TOKEN='...' al compilar/ejecutar.
+  static const String tokenSecreto = String.fromEnvironment('API_TOKEN');
 
   /// Clave para firmar los QR de los carnets (anti-falsificacion).
   ///
   /// El QR guarda "<id>.<HMAC-SHA256(id)>" y el escaner lo verifica antes
-  /// de registrar el pago. Manten esta clave privada y fija.
-  static const String qrClaveSecreta =
-      'CAPORALES-QR-S3CR3TA'; // TODO: reemplazar
+  /// de registrar el pago. Inyectala con --dart-define=QR_CLAVE='...'.
+  static const String qrClaveSecreta = String.fromEnvironment('QR_CLAVE');
 
   /// Valor del aporte por ensayo (S/ 1.00 por defecto, editable en la app).
   static const double aporteEnsayo = 1.00;

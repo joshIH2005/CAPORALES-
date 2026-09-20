@@ -9,7 +9,6 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/qr_firma.dart';
 import '../../logic/member_controller.dart';
-import '../widgets/avatar_miembro.dart';
 import '../widgets/gradient_button.dart';
 
 /// Pantalla de escaner QR con camara.

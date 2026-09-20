@@ -43,9 +43,6 @@ dependencies:
   # Firma HMAC de los QR (anti-falsificacion)
   crypto: ^3.0.3
 
-  # Seleccion de foto de perfil (galeria / camara)
-  image_picker: ^1.1.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
