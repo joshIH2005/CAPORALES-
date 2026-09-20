@@ -1,0 +1,72 @@
+name: caporales_app
+description: "App de control de asistencia y cobro de aportes para elenco de danza Caporales. Registro rapido con escaner QR y sincronizacion con Google Sheets."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+# ============================================================
+# Dependencias del proyecto
+# ============================================================
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Icons de Material
+  cupertino_icons: ^1.0.6
+
+  # Tipografia Poppins (descarga automatica)
+  google_fonts: ^6.2.1
+
+  # Peticiones HTTP hacia la API de Google Apps Script
+  http: ^1.2.2
+
+  # Escaner QR con camara (alta velocidad)
+  mobile_scanner: ^5.2.3
+
+  # Generacion de codigos QR (carnet digital)
+  qr_flutter: ^4.1.0
+
+  # Captura de widgets como imagen (carnet digital)
+  screenshot: ^3.0.0
+
+  # Directorio temporal para guardar la imagen
+  path_provider: ^2.1.4
+
+  # Compartir imagen (ShareSheet de Android/iOS)
+  share_plus: ^10.0.0
+
+  # Persistencia local (cache offline y configuracion)
+  shared_preferences: ^2.5.5
+
+  # Firma HMAC de los QR (anti-falsificacion)
+  crypto: ^3.0.3
+
+  # Seleccion de foto de perfil (galeria / camara)
+  image_picker: ^1.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Lints recomendados por el equipo de Flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Activos del proyecto (logo e imagenes del elenco)
+  assets:
+    - imagenes/
+
+# ============================================================
+# Generador de iconos de la app (reemplazar logo_elenco.png)
+# Uso:  flutter pub run flutter_launcher_icons
+# ============================================================
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_elenco.png"
+  adaptive_icon_background: "#6750A4"
+  adaptive_icon_foreground: "assets/images/logo_elenco.png"
