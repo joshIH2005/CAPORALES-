@@ -9,6 +9,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/qr_firma.dart';
 import '../../logic/member_controller.dart';
+import '../widgets/avatar_miembro.dart';
 import '../widgets/gradient_button.dart';
 
 /// Pantalla de escaner QR con camara.
@@ -51,6 +52,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       if (!mounted) return;
       await showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         isDismissible: true,
         backgroundColor: Colors.transparent,
         builder: (_) => _ResultadoSheet(
@@ -71,6 +73,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     // Muestra el resultado elegante.
     await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       isDismissible: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _ResultadoSheet(
@@ -268,125 +271,127 @@ class _ResultadoSheet extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
       child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // ===== Icono de estado (animado) =====
-            TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0.2, end: 1),
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.elasticOut,
-              builder: (context, scale, child) =>
-                  Transform.scale(scale: scale, child: child),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: color.withValues(alpha: 0.35),
-                      blurRadius: 24,
-                      spreadRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  ok ? Icons.check_circle : Icons.cancel,
-                  color: color,
-                  size: 56,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // ===== Icono de estado (animado) =====
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.2, end: 1),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.elasticOut,
+                builder: (context, scale, child) =>
+                    Transform.scale(scale: scale, child: child),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: color.withValues(alpha: 0.35),
+                        blurRadius: 24,
+                        spreadRadius: 4,
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    ok ? Icons.check_circle : Icons.cancel,
+                    color: color,
+                    size: 56,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // ===== Titulo =====
-            Text(
-              ok ? '¡Pago registrado!' : 'Error',
-              style: ok
-                  ? AppTextStyles.headline(context)
-                  : AppTextStyles.headline(context).copyWith(
-                      color: AppColors.error,
-                    ),
-            ),
-            const SizedBox(height: 6),
+              // ===== Titulo =====
+              Text(
+                ok ? '¡Pago registrado!' : 'Error',
+                style: ok
+                    ? AppTextStyles.headline(context)
+                    : AppTextStyles.headline(context).copyWith(
+                        color: AppColors.error,
+                      ),
+              ),
+              const SizedBox(height: 6),
 
-            Text(
-              resultado.mensaje,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.body(context),
-            ),
+              Text(
+                resultado.mensaje,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.body(context),
+              ),
 
-            if (resultado.miembro != null) ...[
-              const SizedBox(height: 20),
-              // ===== Datos del integrante =====
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceAlt,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  children: [
-                    AvatarMiembro(member: resultado.miembro!, radius: 30),
-                    const SizedBox(height: 10),
-                    Text(
-                      resultado.miembro!.nombreUpper,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.subtitle(context),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'ID: ${resultado.miembro!.id}',
-                      style: AppTextStyles.label(context),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: ok
-                                ? AppColors.success.withValues(alpha: 0.15)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            ok
-                                ? 'Aporte: ${Formatters.soles(resultado.registro?.monto ?? 0)}'
-                                : 'Pago no realizado',
-                            style: TextStyle(
+              if (resultado.miembro != null) ...[
+                const SizedBox(height: 20),
+                // ===== Datos del integrante =====
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceAlt,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      AvatarMiembro(member: resultado.miembro!, radius: 30),
+                      const SizedBox(height: 10),
+                      Text(
+                        resultado.miembro!.nombreUpper,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.subtitle(context),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'ID: ${resultado.miembro!.id}',
+                        style: AppTextStyles.label(context),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 6),
+                            decoration: BoxDecoration(
                               color: ok
-                                  ? AppColors.success
-                                  : AppColors.textSecondary,
-                              fontWeight: FontWeight.w600,
+                                  ? AppColors.success.withValues(alpha: 0.15)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Text(
+                              ok
+                                  ? 'Aporte: ${Formatters.soles(resultado.registro?.monto ?? 0)}'
+                                  : 'Pago no realizado',
+                              style: TextStyle(
+                                color: ok
+                                    ? AppColors.success
+                                    : AppColors.textSecondary,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 24),
+
+              // ===== Botón continuar =====
+              SizedBox(
+                width: double.infinity,
+                child: GradientButton(
+                  onPressed: onCerrar,
+                  label: 'Continuar',
+                  gradient: AppGradients.state(color),
                 ),
               ),
             ],
-
-            const SizedBox(height: 24),
-
-            // ===== Botón continuar =====
-            SizedBox(
-              width: double.infinity,
-              child: GradientButton(
-                onPressed: onCerrar,
-                label: 'Continuar',
-                gradient: AppGradients.state(color),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

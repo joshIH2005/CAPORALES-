@@ -44,7 +44,6 @@ Map<String, dynamic> miembroMap({
       'estado': 'Activo',
       'fecha_ingreso': '2026-01-10',
       'telefono': '987654321',
-      'foto_perfil': '',
     };
 
 Map<String, dynamic> registroMap({
@@ -225,7 +224,7 @@ void main() {
   });
 
   group('MiembroController: alta y anulacion', () {
-    test('crearMiembro envia telefono, foto y token', () async {
+    test('crearMiembro envia telefono y token', () async {
       final posts = <String>[];
       final client = MockClient((req) async {
         if (req.method == 'GET') return statsResponse([], []);
@@ -240,7 +239,6 @@ void main() {
         fechaNacimiento: '1996-01-01',
         ocupacion: 'Bailarín',
         telefono: '987654321',
-        fotoPerfil: 'abcd==',
       );
 
       expect(ok, isTrue);
@@ -250,7 +248,6 @@ void main() {
       expect(cuerpo['accion'], 'nuevo_miembro');
       expect(cuerpo['token'], ApiConfig.tokenSecreto);
       expect(cuerpo['datos']['telefono'], '987654321');
-      expect(cuerpo['datos']['foto_perfil'], 'abcd==');
       expect(controller.members.length, 1);
     });
 

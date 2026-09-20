@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_gradients.dart';
@@ -8,8 +5,7 @@ import '../../data/models/member_model.dart';
 
 /// Avatar circular de un integrante.
 ///
-/// Muestra la foto de perfil (base64) si existe; si no, las iniciales
-/// sobre el fondo dorado de marca.
+/// Muestra las iniciales sobre el fondo dorado de marca.
 class AvatarMiembro extends StatelessWidget {
   const AvatarMiembro({
     super.key,
@@ -33,15 +29,6 @@ class AvatarMiembro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bytes = _decodificarFoto();
-    if (bytes != null) {
-      return CircleAvatar(
-        radius: radius,
-        backgroundColor: Colors.transparent,
-        backgroundImage: MemoryImage(bytes),
-      );
-    }
-
     return Container(
       width: radius * 2,
       height: radius * 2,
@@ -59,18 +46,5 @@ class AvatarMiembro extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Uint8List? _decodificarFoto() {
-    final foto = member.fotoPerfil;
-    if (foto.isEmpty) return null;
-    try {
-      // Admite data URI ("data:image/png;base64,...") o base64 puro.
-      final idx = foto.indexOf(',');
-      final base = idx == -1 ? foto : foto.substring(idx + 1);
-      return base64Decode(base);
-    } catch (_) {
-      return null;
-    }
   }
 }

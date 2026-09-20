@@ -113,66 +113,69 @@ class _SplashScreenState extends State<SplashScreen>
 
           // ===== Contenido central =====
           Center(
-            child: FadeTransition(
-              opacity: _opacidad,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // ===== Medallon del logotipo =====
-                  ScaleTransition(
-                    scale: _escala,
-                    child: _LogoBadge(
-                      rotacion: _rotacion,
-                      pulso: _pulso,
-                    ),
-                  ),
-                  const SizedBox(height: 42),
-
-                  ShaderMask(
-                    shaderCallback: (bounds) =>
-                        AppGradients.gold.createShader(bounds),
-                    blendMode: BlendMode.srcIn,
-                    child: Text(
-                      'NOBLEZA',
-                      style: GoogleFonts.cinzel(
-                        fontSize: 44,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 12,
-                        height: 1.05,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-                  // ===== Titular rojo del elenco =====
-                  ShaderMask(
-                    shaderCallback: (bounds) =>
-                        AppGradients.red.createShader(bounds),
-                    blendMode: BlendMode.srcIn,
-                    child: Text(
-                      'CAPO RAL',
-                      style: GoogleFonts.cinzel(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 14,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: FadeTransition(
+                opacity: _opacidad,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // ===== Medallon del logotipo =====
+                    ScaleTransition(
+                      scale: _escala,
+                      child: _LogoBadge(
+                        rotacion: _rotacion,
+                        pulso: _pulso,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 22),
+                    const SizedBox(height: 42),
 
-                  const OrnamentoDorado(ancho: 170),
-                  const SizedBox(height: 18),
-
-                  Text(
-                    'ELENCO DE DANZA',
-                    style: GoogleFonts.poppins(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 5,
-                      color: AppColors.textSecondary,
+                    ShaderMask(
+                      shaderCallback: (bounds) =>
+                          AppGradients.gold.createShader(bounds),
+                      blendMode: BlendMode.srcIn,
+                      child: Text(
+                        'NOBLEZA',
+                        style: GoogleFonts.cinzel(
+                          fontSize: 44,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 12,
+                          height: 1.05,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                ],
+
+                    // ===== Titular rojo del elenco =====
+                    ShaderMask(
+                      shaderCallback: (bounds) =>
+                          AppGradients.red.createShader(bounds),
+                      blendMode: BlendMode.srcIn,
+                      child: Text(
+                        'CAPO RAL',
+                        style: GoogleFonts.cinzel(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 14,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 22),
+
+                    const OrnamentoDorado(ancho: 170),
+                    const SizedBox(height: 18),
+
+                    Text(
+                      'ELENCO DE DANZA',
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 5,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

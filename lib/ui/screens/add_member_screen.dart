@@ -277,8 +277,13 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Carnet como tarjeta fisica
-          CarnetDigitalWidget(member: member),
+          // Carnet como tarjeta fisica (se adapta a pantallas pequenas)
+          Center(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: CarnetDigitalWidget(member: member),
+            ),
+          ),
 
           const SizedBox(height: 24),
 

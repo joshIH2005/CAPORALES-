@@ -431,7 +431,6 @@ class MemberController extends ChangeNotifier {
     required String fechaNacimiento,
     required String ocupacion,
     String telefono = '',
-    String fotoPerfil = '',
   }) async {
     final miembro = Member(
       id: Formatters.generarIdMiembro(),
@@ -442,7 +441,6 @@ class MemberController extends ChangeNotifier {
       estado: 'Activo',
       fechaIngreso: Formatters.hoyISO(),
       telefono: telefono.trim(),
-      fotoPerfil: fotoPerfil,
     );
 
     final op = OpPendiente(

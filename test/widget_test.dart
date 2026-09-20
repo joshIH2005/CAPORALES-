@@ -17,7 +17,7 @@ void main() {
 
     // Transicion automatica al menu principal (timer 4200ms).
     await tester.pump(const Duration(milliseconds: 4300));
-    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
 
     // Los accesos rapidos quedan bajo el pliegue en el viewport de prueba.
     await tester.scrollUntilVisible(find.text('Nuevo integrante'), 120);
